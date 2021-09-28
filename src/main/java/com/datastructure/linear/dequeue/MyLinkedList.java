@@ -1,4 +1,4 @@
-package com.datastructure;
+package com.datastructure.linear.dequeue;
 
 import java.util.LinkedList;
 

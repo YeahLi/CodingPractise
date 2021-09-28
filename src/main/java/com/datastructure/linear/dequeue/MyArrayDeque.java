@@ -1,4 +1,4 @@
-package com.datastructure;
+package com.datastructure.linear.dequeue;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

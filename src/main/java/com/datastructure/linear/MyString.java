@@ -1,4 +1,4 @@
-package com.datastructure;
+package com.datastructure.linear;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

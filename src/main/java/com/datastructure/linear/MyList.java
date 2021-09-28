@@ -1,4 +1,4 @@
-package com.datastructure;
+package com.datastructure.linear;
 
 import java.util.ArrayList;
 import java.util.Arrays;
