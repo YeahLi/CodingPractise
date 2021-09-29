@@ -38,6 +38,10 @@ public class MyPriorityQueue {
     }
 
     public static int findKthLargest(int[] nums, int k) {
+        if (nums == null || nums.length < k) {
+            throw new RuntimeException("Invalid input");
+        }
+
         PriorityQueue<Integer> pq = new PriorityQueue<>(); //默认为小顶堆
         for (int num : nums) {
             pq.offer(num);
@@ -49,6 +53,10 @@ public class MyPriorityQueue {
     }
 
     public static int findKthSmallest(int[] nums, int k) {
+        if (nums == null || nums.length < k) {
+            throw new RuntimeException("Invalid input");
+        }
+
         PriorityQueue<Integer> pq = new PriorityQueue<>((x, y) -> y - x); //大顶堆
         for (int num : nums) {
             pq.offer(num);
@@ -60,6 +68,10 @@ public class MyPriorityQueue {
     }
 
     public static List<Integer> findKLargestNums(int[] nums, int k) {
+        if (nums == null || nums.length < k) {
+            throw new RuntimeException("Invalid input");
+        }
+
         PriorityQueue<Integer> pq = new PriorityQueue<>(); //小顶堆
         for (int num : nums) {
             pq.offer(num);
@@ -77,8 +89,8 @@ public class MyPriorityQueue {
 
     public static int minMeetingRooms(int[][] intervals) {
         class Interval {
-            int start;
-            int end;
+            final int start;
+            final int end;
 
             public Interval(int start, int end) {
                 this.start = start;
