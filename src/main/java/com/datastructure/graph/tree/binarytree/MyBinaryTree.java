@@ -1,4 +1,4 @@
-package com.datastructure.graph.tree;
+package com.datastructure.graph.tree.binarytree;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;

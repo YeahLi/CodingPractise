@@ -1,4 +1,4 @@
-package com.datastructure.graph.tree;
+package com.datastructure.graph.tree.binarytree.binaryheap;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -90,7 +90,6 @@ public class MyArray {
         // 3. Transfer to stream
         Arrays.stream(arr).forEach(System.out::println);
 
-
         // 4. Transfer to array list
         intArr = new Integer[] {1, 2, 3, 4, 5};
         List<Integer> list = Arrays.asList(intArr);
