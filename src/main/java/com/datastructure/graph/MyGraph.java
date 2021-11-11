@@ -741,7 +741,7 @@ public class MyGraph {
     }
 
     /**
-     * 如果在遍历的过程中，发现某个结点有一条边指向path中的节点，并且这个结点不是上一步访问的结点，那么存在环。
+     * 如果在遍历的过程中，发现某个结点is visited，并且这个结点不是上一步访问的结点，那么存在环。
      * <p>
      * 结论: 无向图要想没有环只能是树形结构
      *
@@ -750,43 +750,30 @@ public class MyGraph {
     public boolean isCyclicUndirectedGraphDFS() {
         boolean[] visited = new boolean[vertices.length];
 
-        while (true) {
-            int index = -1;
-            for (int i = 0; i < visited.length; i++) {
-                if (!visited[i]) {
-                    index = i;
-                    break;
+        for (int i = 0; i < visited.length; i++) {
+            if (!visited[i]) {
+                List<Integer> path = new ArrayList<>();
+                boolean result = hasCycleUndirectedGraphDFSHelper(i, -1, visited);
+                if (result) {
+                    return true;
                 }
-            }
-            if (index == -1) {
                 break;
-            }
-
-            List<Integer> path = new ArrayList<>();
-            boolean result = hasCycleUndirectedGraphDFSHelper(index, path, visited);
-            if (result) {
-                return true;
             }
         }
 
         return false;
     }
 
-    private boolean hasCycleUndirectedGraphDFSHelper(int i, List<Integer> path, boolean[] visited) {
+    private boolean hasCycleUndirectedGraphDFSHelper(int i, int prev, boolean[] visited) {
         if (visited[i]) { //无向图中,只要 visit 过就肯定有环
             return true;
         }
 
         visited[i] = true;
-        path.add(i);
 
-        int last = path.get(path.size() - 1);
         for (int j = 0; j < edges[i].length; j++) {
-            if (j != last && edges[i][j] != 0) {
-                boolean result = hasCycleUndirectedGraphDFSHelper(j, path, visited);
-                //back trace
-                path.remove(path.size() - 1);
-
+            if (j != prev && edges[i][j] != 0) {
+                boolean result = hasCycleUndirectedGraphDFSHelper(j, i, visited);
                 if (result) {
                     return true;
                 }
@@ -798,7 +785,7 @@ public class MyGraph {
     public boolean isCyclicUnionFind() {
         class Union {
             int[] parent;
-            int count; //孤岛数量
+            int count; //孤岛数量 -- vertex 数量
 
             public Union(int numOfNodes) {
                 parent = new int[numOfNodes];

@@ -76,6 +76,7 @@ public class MyArray {
 
         // 1. Sort
         Arrays.sort(arr);
+        //Arrays.sort(arr, Collections.reverseOrder());
 
         // 2. Transfer to a string
         System.out.println(arr);
