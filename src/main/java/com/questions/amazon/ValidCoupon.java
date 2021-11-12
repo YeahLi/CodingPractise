@@ -1,6 +1,8 @@
 package com.questions.amazon;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 
 public class ValidCoupon {
     public static int[] validateCoupons(String[] discounts) {
@@ -24,45 +26,28 @@ public class ValidCoupon {
             return true;
         }
 
-        if (coupon.length() % 2 != 0) {
-            return false;
-        }
+        char[] chars = coupon.toCharArray();
+        Deque<Character> stack = new ArrayDeque<>();
 
-        if (meetSecondRule(coupon)) {
-            return true;
-        }
+        for (char c : chars) {
+            if (stack.isEmpty()) {
+                stack.push(c);
+                continue;
+            }
 
-        for (int i = 2; i < coupon.length(); i += 2) {
-            String part1 = coupon.substring(0, i);
-            String part2 = coupon.substring(i);
-
-            if (isValidCoupon(part1) && isValidCoupon(part2)) {
-                return true;
+            char top = stack.peek();
+            if (top == c) {
+                stack.pop();
+            } else {
+                stack.push(c);
             }
         }
 
-        return false;
-    }
-
-    private static boolean meetSecondRule(String str) {
-        int i = 0;
-        int j = str.length() - 1;
-
-        while (i < j) {
-            if (str.charAt(i) != str.charAt(j)) {
-                return false;
-            }
-            i++;
-            j--;
-        }
-        if (i == j) {
-            return false;
-        }
-        return true;
+        return stack.isEmpty();
     }
 
     public static void main(String[] args) {
-        String[] coupons = new String[]{"ab", "bbaa", "abab", "abba", "abbaacca", "dabbadacca", "a"};
+        String[] coupons = new String[]{"ab", "bbaa", "abab", "abba", "abbaacca", "dabbadacca", "a", "dbbaad"};
         System.out.println("Input: " + Arrays.toString(coupons));
         System.out.println("Output: " + Arrays.toString(validateCoupons(coupons)));
     }
