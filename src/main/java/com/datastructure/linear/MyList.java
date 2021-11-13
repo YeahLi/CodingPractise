@@ -56,7 +56,7 @@ public class MyList {
         //update - E set(index, element)
         list.set(2, 3);
 
-        //Sub - List<E> subList(from, to)
+        //Sub - List<E> subList[from, to)
         List<Integer> sublist = list.subList(2,4);
         System.out.println(sublist);
 
