@@ -22,32 +22,34 @@ public class LongestCommonSubarray {
 
         int m = user1.length;
         int n = user2.length;
-        int[][] dp = new int[m+1][n+1];
-        dp[0][0] = 0;
 
-        int max = 0;
         int idx1 = -1;
         int idx2 = -1;
+        int maxLength = 0;
 
-        for (int i = 1; i < m+1; i++) { //be careful about the initial value and range!
-            for (int j = 1; j < n+1; j++) {
-                if (user1[i-1].equals(user2[j-1])) {
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                    if(max < dp[i][j]) {
-                        max = dp[i][j];
-                        idx1 = i-1;
-                        idx2 = j-1;
+        int[][] dp = new int[m + 1][n + 1];
+        dp[0][0] = 0;
+
+        for (int i = 1; i < m + 1; i++) {
+            for (int j = 1; j < n + 1; j++) {
+                if (user1[i - 1].equals(user2[j - 1])) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    if (dp[i][j] > maxLength) {
+                        maxLength = dp[i][j];
+                        idx1 = i - 1;
+                        idx2 = j - 1;
                     }
                 }
             }
         }
 
-        LinkedList<String> list = new LinkedList<>();
-        while(idx1 >= 0 && idx2 >= 0 && user1[idx1].equals(user2[idx2])) {
-            list.addFirst(user1[idx1]);
+        //find the common subarray
+        LinkedList<String> res = new LinkedList<>();
+        while (idx1 >= 0 && idx2 >= 0 && user1[idx1] == user2[idx2]) {
+            res.addFirst(user1[idx1]);
             idx1--;
             idx2--;
         }
-        return list;
+        return res;
     }
 }

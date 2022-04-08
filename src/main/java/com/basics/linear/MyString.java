@@ -19,8 +19,8 @@ public class MyString {
          * 5. boolean equalsIgnoreCase(compareStr)
          * 6. int compareIgnoreCase(compareStr)
          * 7. int indexOf(String)
-         * 8. String toLowerString()
-         *    String toUpperString()
+         * 8. String toLowerCase()
+         *    String toUpperCase()
          * 9. String trim()
          */
         stringDemo(string);
@@ -179,6 +179,8 @@ public class MyString {
         stringBuffer.reverse();
         //toString
         stringBuffer.toString();
+        //length
+        stringBuffer.length();
     }
 
     public static void stringClassDemo() {

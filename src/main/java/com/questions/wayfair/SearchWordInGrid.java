@@ -24,11 +24,12 @@ public class SearchWordInGrid {
     public static List<int[]> findWordLocation(char[][] grid, String word) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] ==  word.charAt(0)) {
-                    List<int[]> res = new ArrayList<>();
-                    res.add(new int[]{i, j});
-                    boolean isFind = dfs(grid, word, 1, res, i, j);
-                    if (isFind) {
+                if (grid[i][j] == word.charAt(0)) {
+                    List<int[]> path = new ArrayList<>();
+                    path.add(new int[]{i, j});
+
+                    List<int[]> res = dfs(grid, word, 1, i, j, path);
+                    if (!res.isEmpty()) {
                         return res;
                     }
                 }
@@ -37,30 +38,31 @@ public class SearchWordInGrid {
         return new ArrayList<>();
     }
 
-    private static boolean dfs(char[][] grid, String word, int index, List<int[]> path, int i, int j) {
-        if (index == word.length()) {
-            return true;
+    //idx: next compared char, i and j current position
+    private static List<int[]> dfs(char[][] grid, String word, int idx, int i, int j, List<int[]> path) {
+        if (idx >= word.length()) {
+            return new ArrayList<>(path);
         }
 
-        char c = word.charAt(index);
-        //System.out.println(i+","+j);
-        if (i+1 < grid.length && j < grid[0].length && grid[i+1][j] == c) {
-            path.add(new int[]{i+1, j});
-            if(dfs(grid,word, index+1, path, i+1, j)) {
-                return true;
+        if (i + 1 < grid.length && grid[i + 1][j] == word.charAt(idx)) {
+            path.add(new int[]{i + 1, j});
+            List<int[]> res = dfs(grid, word, idx + 1, i + 1, j, path);
+            if (!res.isEmpty()) {
+                return res;
             }
-            path.remove(path.size()-1);
+            path.remove(path.size() - 1);
         }
 
-        if (i < grid.length && j+1 < grid[0].length && grid[i][j+1] == c) {
-            path.add(new int[]{i, j+1});
-            if(dfs(grid,word, index+1, path, i, j+1)) {
-                return true;
+        if (j + 1 < grid[0].length && grid[i][j + 1] == word.charAt(idx)) {
+            path.add(new int[]{i, j + 1});
+            List<int[]> res = dfs(grid, word, idx + 1, i, j + 1, path);
+            if (!res.isEmpty()) {
+                return res;
             }
-            path.remove(path.size()-1);
+            path.remove(path.size() - 1);
         }
 
-        return false;
+        return new ArrayList<>();
     }
 
     public static void main(String[] args) {
@@ -75,10 +77,78 @@ public class SearchWordInGrid {
         };
 
         String word1 = "catnip";
+        String word2 = "cccc";
+        String word3 = "s";
+        String word4 = "bit";
+        String word5 = "aoi";
+        String word6 = "ki";
+        String word7 = "aaa";
+        String word8 = "ooo";
+
+        char[][] grid2 = {{'a'}};
+        String word9 = "a";
 
         List<int[]> result = findWordLocation(grid1, word1);
         for (int[] pair : result) {
-            System.out.println(Arrays.toString(pair));
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
         }
+        System.out.println();
+
+        result = findWordLocation(grid1, word2);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        result = findWordLocation(grid1, word3);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        result = findWordLocation(grid1, word4);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        result = findWordLocation(grid1, word5);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        result = findWordLocation(grid1, word6);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.println(" ");
+        }
+        System.out.println();
+
+        result = findWordLocation(grid1, word7);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        result = findWordLocation(grid1, word8);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        result = findWordLocation(grid2, word9);
+        for (int[] pair : result) {
+            System.out.print(Arrays.toString(pair));
+            System.out.print(" ");
+        }
+        System.out.println();
     }
 }

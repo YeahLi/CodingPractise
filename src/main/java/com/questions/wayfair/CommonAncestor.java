@@ -25,33 +25,38 @@ public class CommonAncestor {
     }
 
     public static List<List<Integer>> getZeroAndOneParentNodes(int[][] input) {
+        //return indegree equals 0 and 1
+        //1. build indegree map
         Map<Integer, Integer> indegreeMap = new HashMap<>();
-        for(int[] edge : input) {
+        for (int[] edge : input) {
             int parent = edge[0];
             int child = edge[1];
 
-            if(!indegreeMap.containsKey(parent)) {
+            if (!indegreeMap.containsKey(parent)) {
                 indegreeMap.put(parent, 0);
             }
 
-            int indegree = indegreeMap.getOrDefault(child, 0);
-            indegreeMap.put(child, indegree + 1);
+            int count = indegreeMap.getOrDefault(child, 0);
+            indegreeMap.put(child, count + 1);
         }
 
-        List<Integer> zeroList = new ArrayList<>();
-        List<Integer> oneList = new ArrayList<>();
-        for (Integer node : indegreeMap.keySet()) {
-            int indegree = indegreeMap.get(node);
-            if (indegree == 0) {
-                zeroList.add(node);
-            } else if (indegree == 1) {
-                oneList.add(node);
+        //2. find out required data
+        List<Integer> noParentList = new ArrayList<>();
+        List<Integer> oneParentList = new ArrayList<>();
+
+        for (int node : indegreeMap.keySet()) {
+            int count = indegreeMap.get(node);
+            if (count == 0) {
+                noParentList.add(node);
+            } else if (count == 1) {
+                oneParentList.add(node);
             }
         }
-        List<List<Integer>> result = new ArrayList<>();
-        result.add(zeroList);
-        result.add(oneList);
-        return result;
+
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(noParentList);
+        res.add(oneParentList);
+        return res;
     }
 
     public static Map<Integer, Set<Integer>> parentMap;
@@ -66,23 +71,24 @@ public class CommonAncestor {
 
     private static void buildParentMap(int[][] input) {
         parentMap = new HashMap<>();
-        for(int[] edge : input) {
+        for (int[] edge : input) {
             int parent = edge[0];
             int child = edge[1];
 
-            if(!parentMap.containsKey(parent)) {
+            if (!parentMap.containsKey(parent)) {
                 Set<Integer> set = new HashSet<>();
                 set.add(parent);
                 parentMap.put(parent, set);
             }
 
             Set<Integer> set = parentMap.getOrDefault(child, new HashSet<>());
-            set.add(parent);
             set.remove(child);
+            set.add(parent);
             parentMap.put(child, set);
         }
     }
 
+    //dfs
     public static Set<Integer> find(int x) {
         if (!parentMap.containsKey(x)) {
             Set<Integer> set = new HashSet<>();
@@ -90,17 +96,16 @@ public class CommonAncestor {
             return set;
         }
 
-        Set<Integer> set = parentMap.get(x);
-        if (set.contains(x) && set.size() == 1) {
-            return set;
+        if (parentMap.get(x).contains(x)) {
+            return parentMap.get(x);
         }
 
-        Set<Integer> res = new HashSet<>();
-        for(int parent : set) {
-            Set<Integer> temp = find(parent);
-            res.addAll(temp);
+        Set<Integer> parentSet = parentMap.get(x);
+        Set<Integer> set = new HashSet<>();
+        for (int parent : parentSet) {
+            set.addAll(find(parent));
         }
-        parentMap.put(x, res);
-        return res;
+        parentMap.put(x, set);
+        return set;
     }
 }

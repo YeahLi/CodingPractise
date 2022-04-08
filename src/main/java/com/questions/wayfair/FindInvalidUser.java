@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,38 +40,35 @@ import java.util.Set;
 public class FindInvalidUser {
 
     public static List<List<String>> findInvalidUsers(List<String[]> input) {
-        List<List<String>> result = new ArrayList<>();
-        Set<String> inValidExiting = new LinkedHashSet<>();
-        Set<String> inValidEntering = new LinkedHashSet<>();
-
-        Map<String, String> map = new HashMap<>();// key is name, value is the status
-
-        for(String[] record : input) {
+        Map<String, String> status = new HashMap<>();
+        Set<String> invalidExit = new HashSet<>();
+        Set<String> invalidEnter = new HashSet<>();
+        for (String[] record : input) {
             String name = record[0];
-            String status = record[1];
+            String action = record[1];
 
-            if(map.containsKey(name)) {
-                String value = map.get(name);
-                if (value == "enter" && status == "exit") {
-                    map.remove(name);
-                } else if(value == "enter" && status == "enter") {
-                    inValidExiting.add(name);
+            if (action.equals("exit")) { //exit won't write into status map
+                if (status.containsKey(name) && status.get(name).equals("enter")) {
+                    status.remove(name);
+                } else {
+                    invalidEnter.add(name);
                 }
             } else {
-                if(status == "exit") {
-                    inValidEntering.add(name);
+                if (status.containsKey(name) && status.get(name).equals("enter")) {
+                    invalidExit.add(name);
                 } else {
-                    map.put(name, status);
+                    status.put(name, "enter");
                 }
             }
         }
-
-        for(String name: map.keySet()) {
-            inValidExiting.add(name);
+        //the left items in status are the people who exit without badge
+        for (String name : status.keySet()) {
+            invalidExit.add(name);
         }
 
-        result.add(new ArrayList<>(inValidExiting));
-        result.add(new ArrayList<>(inValidEntering));
+        List<List<String>> result = new ArrayList<>();
+        result.add(new ArrayList<>(invalidExit));
+        result.add(new ArrayList<>(invalidEnter));
         return result;
     }
 

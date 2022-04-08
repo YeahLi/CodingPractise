@@ -174,12 +174,12 @@ public class nonogram {
             i++;
         }
 
-        //remember to do one more operation for the case when reaching to the end boundary.
-        if(preBlack && j < check.length && count == check[j] ) {
+        //remember to do one more operation for the case when i reaching to the end boundary.
+        if (preBlack && j < check.length && count == check[j]) { //000000
             j++;
         }
 
-        while (i < arr.length && arr[i] != 0) {
+        while (i < arr.length && arr[i] != 0) { //001111
             i++;
         }
 
